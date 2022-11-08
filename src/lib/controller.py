@@ -1,19 +1,42 @@
 # controller.py - Provides stuff to get input from 
-# gamepads, using pygame
+# gamepads, using inputs
+# Mainly messing around right now.
 # Licensed under the MIT license. More information
 # in the main LICENSE file at the root of this 
 # repository.
 
-import pygame
+import inputs
 
-pygame.joystick.init()
+gamepads = inputs.devices.gamepads.copy()
 
-all_devs = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+if gamepads:
+    for gamepad in gamepads:
+        print("Gamepad found:", gamepad)
 
-print(all_devs)
+    if len(gamepads) == 1:
+        
+        # If more than one gamepad connected, let user
+        # decide with number input
 
-if not all_devs:
-    print("No devs found!")
+        print("Which gamepad would you like to use?")
+
+        for index, gamepad in enumerate(gamepads):
+            print("{}: {}".format(index, gamepad))
+        
+        while True:
+            try:
+                usedGamepadIndex = int(input(">>> "))
+                
+                # Make sure the gamepad index is valid
+                # by trying to access the indexed gamepad
+                gamepads[usedGamepadIndex]
+
+            except (ValueError, IndexError):
+                continue
+            else:
+                break
+
 else:
-    for dev in all_devs:
-        print(dev.get_power_level())
+    print("No gamepads detected.")
+    exit(1)
+
