@@ -7,13 +7,15 @@
 
 import inputs
 
-gamepads = inputs.devices.gamepads.copy()
+gamepads = inputs.devices.gamepads
 
 if gamepads:
     for gamepad in gamepads:
         print("Gamepad found:", gamepad)
 
-    if len(gamepads) == 1:
+    usedGamepadIndex = 0
+
+    if len(gamepads) > 1:
         
         # If more than one gamepad connected, let user
         # decide with number input
@@ -40,3 +42,6 @@ else:
     print("No gamepads detected.")
     exit(1)
 
+diri = [item for item in dir(gamepads[usedGamepadIndex]) if item[0] != '_']
+
+print(diri)
