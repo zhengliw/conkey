@@ -5,43 +5,17 @@
 # in the main LICENSE file at the root of this 
 # repository.
 
+import os
+from time import sleep
 import inputs
 
-gamepads = inputs.devices.gamepads
+while True:
+    events = inputs.get_gamepad()
+    for event in events:
+        print(event.ev_type, event.code, event.state)
+    
+    print("\n======\n")
 
-if gamepads:
-    for gamepad in gamepads:
-        print("Gamepad found:", gamepad)
+    sleep(0.5)
 
-    usedGamepadIndex = 0
-
-    if len(gamepads) > 1:
-        
-        # If more than one gamepad connected, let user
-        # decide with number input
-
-        print("Which gamepad would you like to use?")
-
-        for index, gamepad in enumerate(gamepads):
-            print("{}: {}".format(index, gamepad))
-        
-        while True:
-            try:
-                usedGamepadIndex = int(input(">>> "))
-                
-                # Make sure the gamepad index is valid
-                # by trying to access the indexed gamepad
-                gamepads[usedGamepadIndex]
-
-            except (ValueError, IndexError):
-                continue
-            else:
-                break
-
-else:
-    print("No gamepads detected.")
-    exit(1)
-
-diri = [item for item in dir(gamepads[usedGamepadIndex]) if item[0] != '_']
-
-print(diri)
+    os.system("cls")
